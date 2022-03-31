@@ -54,6 +54,19 @@ func RandStringBytes(n int) string {
 	return string(b)
 }
 
+// this is how the stuff is stored when called
+// generate seed using the current time in UnixNano measurement
+//generate randomNum using INTERVAL (max-min)
+// then add minimum to it
+// store the value as n
+// this is where we call RandStringBytes (above)
+// generate n into random string of bytes
+    // within RandStringBytes
+	// create a byte array for the BUFFER the size of number
+		// THIS IS IMPORTANT - THIS IS HOW IT KNOWS
+		// by doing this it seems like - okay, I can figure out what N should be based on the size of the randomByteString
+	// now assigning each array slot to a random entry from variable 'letters', this is done by calculating the length, converting to Int, then using crand.
+
 func VarNumberLength(min, max int) string {
 	var r string
 	crand.Seed(time.Now().UnixNano())
