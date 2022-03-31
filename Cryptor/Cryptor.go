@@ -66,6 +66,8 @@ func RandStringBytes(n int) string {
 		// THIS IS IMPORTANT - THIS IS HOW IT KNOWS
 		// by doing this it seems like - okay, I can figure out what N should be based on the size of the randomByteString
 	// now assigning each array slot to a random entry from variable 'letters', this is done by calculating the length, converting to Int, then using crand.
+	// return our new string, which is the length of our set ((Interval (max-min)) + min)
+// now that our original function has a returned StringOfBytes (length of n), we can return our encrypted content.
 
 func VarNumberLength(min, max int) string {
 	var r string
