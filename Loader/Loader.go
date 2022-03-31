@@ -202,6 +202,24 @@ func WriteProcessMemory_Buff(number string, b64number int) (string, string, stri
 	return buffer.String(), WriteProcessMemory.Variables["decode"], WriteProcessMemory.Variables["WriteProcessMemory"]
 }
 
+// THIS IS THE NOTES FROM CRYPTOR.GO <EXPLAINS VarNumberLength >
+//
+// this is how the stuff is stored when called
+// generate seed using the current time in UnixNano measurement
+//generate randomNum using INTERVAL (max-min)
+// then add minimum to it
+// store the value as n
+// this is where we call RandStringBytes (above)
+// generate n into random string of bytes
+    // within RandStringBytes
+	// create a byte array for the BUFFER the size of number
+		// THIS IS IMPORTANT - THIS IS HOW IT KNOWS
+		// by doing this it seems like - okay, I can figure out what N should be based on the size of the randomByteString
+	// now assigning each array slot to a random entry from variable 'letters', this is done by calculating the length, converting to Int, then using crand.
+	// return our new string, which is the length of our set ((Interval (max-min)) + min)
+// now that our original function has a returned StringOfBytes (length of n), we can return our encrypted content.
+//
+
 func DLLfile(b64ciphertext string, b64key string, b64iv string, mode string, refresher bool, name string, sandbox bool, ETW bool, ProcessInjection string, AMSI bool) (string, string, string) {
 	var LoaderTemplate, DLLStructTemplate string
 	// read and assign DLL to variable 'DLL'
