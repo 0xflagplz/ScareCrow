@@ -1,7 +1,7 @@
 To view the latest version of ScareCrow or to submit an issue, reference https://github.com/Tylous/ScareCrow.  
 
 Forked Additions:   
-      - PipeInjecetion Execution Mode  
+      - PipeInjection Execution Mode  
       - UUIDFromString Execution Mode  
       - EnumLoadedModules Execution Mode  
 
