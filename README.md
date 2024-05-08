@@ -10,4 +10,3 @@ Forked Additions:
 * Special thanks to mvdan for developing [Garble](https://github.com/burrowers/garble)
 * Special thanks to mvdan for developing [Binject](github.com/Binject/debug/pe)
 * Special thanks to modexp's detailed [article]("https://www.mdsec.co.uk/2020/12/bypassing-user-mode-hooks-and-direct-invocation-of-system-calls-for-red-teams/")
-
