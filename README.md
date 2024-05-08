@@ -5,6 +5,9 @@ Forked Additions:
       - UUIDFromString Execution Mode  
       - EnumLoadedModules Execution Mode  
 
+```export GO111MODULE=on```
+
+
 ## Credit 
 * Special thanks to josephspurrier for his [repo](https://github.com/josephspurrier/goversioninfo)
 * Special thanks to mvdan for developing [Garble](https://github.com/burrowers/garble)
