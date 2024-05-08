@@ -65,10 +65,10 @@ func options() *FlagOptions {
 [*] NtQueueApcThreadEx - Executes the shellcode by creating an asynchronous procedure call (APC) to a target thread.
 [*] CreateFiber - Initiates the creation of a fiber, which represents a lightweight thread of execution within a process.
 [*] VirtualAlloc - Allocates shellcode into the process using custom syscalls in the current running process
-[* NEW *] PipeInjection - Process Injection via Pipes.
-[* NEW *] UUIDFromString - Executes shellcode via UUIDFromString API.
-[* NEW *] EnumLoadedModules - Executes shellcode via EnumLoadedModules API`)
-
+[*] PipeInjection - Process Injection via Pipes.
+[*] UUIDFromString - Executes shellcode via UUIDFromString API.
+[*] EnumLoadedModules - Executes shellcode via EnumLoadedModules API
+[*] CreateThread - Executes shellcode via CreateThread/WaitForSingleObject API`)
 	evasion := flag.String("Evasion", "Disk", `Sets the type of EDR unhooking technique:
 [*] Disk - Retrives a clean version of the DLLs ".text" field from files stored on disk.
 [*] KnownDLL - Retrives a clean version of the DLLs ".text" field from the KnownDLLs directory in the object namespace.
@@ -200,7 +200,7 @@ func main() {
 		log.Fatal("Error: Please provide the url the loader will be hosted on in order to generate a delivery command")
 	}
 
-	if opt.exectype != "RtlCopy" && opt.exectype != "UUIDFromString" && opt.exectype != "EnumLoadedModules" && opt.exectype != "PipeInjection" && opt.exectype != "NtQueueApcThreadEx" && opt.exectype != "ProcessInjection" && opt.exectype != "VirtualAlloc" && opt.exectype != "CreateFiber" {
+	if opt.exectype != "RtlCopy" && opt.exectype != "UUIDFromString" && opt.exectype != "CreateThread" && opt.exectype != "EnumLoadedModules" && opt.exectype != "PipeInjection" && opt.exectype != "NtQueueApcThreadEx" && opt.exectype != "ProcessInjection" && opt.exectype != "VirtualAlloc" && opt.exectype != "CreateFiber" {
 		log.Fatal("Error: Invalid execution type, please select one of the allowed types")
 	}
 
