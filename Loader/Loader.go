@@ -333,6 +333,7 @@ func Header_Buff(binary bool, AMSI bool, ETW bool, ProcessInjection string, cons
 	Header.Variables["number"] = Cryptor.VarNumberLength(4, 9)
 
 	Header.Variables["Sandboxfunction"] = Cryptor.VarNumberLength(4, 9)
+	Header.Variables["procReadProcessMemory"] = Cryptor.VarNumberLength(4, 9)
 
 	Header.Variables["Versionfunc"] = Cryptor.VarNumberLength(4, 9)
 	Header.Variables["k"] = Cryptor.VarNumberLength(4, 9)
