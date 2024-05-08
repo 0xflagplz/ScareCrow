@@ -277,7 +277,9 @@ func Imports_Buff(binary bool, console bool, sandbox bool, injection string, eva
 	} else {
 		Imports.Variables["SandboxOS"] = ""
 	}
-	if ETW == false || AMSI == false || injection != "" {
+	if (ETW && AMSI) && injection != "" {
+		Imports.Variables["HEX_Import"] = ""
+	} else if ETW == false || AMSI == false || injection != "" {
 		Imports.Variables["HEX_Import"] = `"encoding/hex"`
 	} else {
 		Imports.Variables["HEX_Import"] = ""
@@ -295,10 +297,10 @@ func Imports_Buff(binary bool, console bool, sandbox bool, injection string, eva
 		Imports.Variables["bytes_header"] = ""
 	}
 
-	if binary == false && injection == "" {
-		Imports.Variables["Time_Import"] = ""
-	} else {
+	if binary == true || Exec_Type == "ProcessInjection" {
 		Imports.Variables["Time_Import"] = `"time"`
+	} else {
+		Imports.Variables["Time_Import"] = ""
 	}
 
 	ImportTemplate, err := template.New("Imports").Parse(Struct.Imports())

@@ -192,10 +192,9 @@ func main() {
 	if opt.inputFile == "" {
 		log.Fatal("Error: Please provide a path to a file containing raw 64-bit shellcode (i.e .bin files)")
 	}
-	if opt.exectype == "ProcessInjection" || opt.exectype == "PipeInjection" && opt.ProcessInjection == "" {
+	if (opt.exectype == "ProcessInjection" || opt.exectype == "PipeInjection") && opt.ProcessInjection == "" {
 		log.Fatal("Process Injection modules require a Path (ex. 'C:\\Windows\\system32\\notepad.exe')")
 	}
-
 	if opt.CommandLoader != "" && opt.URL == "" {
 		log.Fatal("Error: Please provide the url the loader will be hosted on in order to generate a delivery command")
 	}
@@ -223,7 +222,7 @@ func main() {
 	if opt.CommandLoader == "hta" && opt.outFile == "" {
 		log.Fatal("Error: Please provide the a HTA filename to store the loader in")
 	}
-
+	
 	if (opt.CommandLoader == "hta" || opt.CommandLoader == "macro") && (opt.LoaderType == "binary" || opt.LoaderType == "dll") {
 		log.Fatal("Error: Binary and DLL loaders are not compatable with this delivery command")
 	}
@@ -255,7 +254,7 @@ func main() {
 	if opt.password == "" && opt.valid != "" {
 		log.Fatal("Error: Please provide a password for the valid code signing certificate")
 	}
-
+	
 	if opt.ProcessInjection != "" && (opt.ETW == true || opt.AMSI == true) {
 		fmt.Println("[!] Currently ETW and AMSI patching only affects the parent process not the injected process")
 	}
@@ -266,12 +265,16 @@ func main() {
 	if opt.LoaderType != "dll" && opt.export != "" {
 		log.Fatal("Error: Export option can only be used with DLL loaders ")
 	}
+
+
+
 	var extraPackage bool
 	if opt.exectype == "UUIDFromString" {
 		extraPackage = true
 	} else {
 		extraPackage = false
 	}
+	
 	Utils.CheckGarble()
 	b64ciphertext, b64key, b64iv := Cryptor.EncryptShellcode(opt.inputFile, opt.encryptionmode)
 	fmt.Println("[+] Shellcode Encrypted")
